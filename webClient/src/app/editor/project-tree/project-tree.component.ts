@@ -73,8 +73,8 @@ export class ProjectTreeComponent implements OnInit {
         // convert path to adjust url. If path is start with '/' then remove it.
         let targetPath = ['/', '\\'].indexOf(node.data.path.substring(0, 1)) > -1 ? node.data.path.substring(1) : node.data.path;
         let requestUrl: string = ZoweZLUX.uriBroker.unixFileUri('contents',
-                                                                `${targetPath}/${node.data.fileName}`);
-                                                                
+          `${targetPath}/${node.data.fileName}`);
+
         return this.httpService.get(requestUrl).toPromise().then((dirList: any) => {
           let fileStructure = this.dataAdapter.convertDirectoryList(dirList);
           return fileStructure.map(f => {
@@ -130,9 +130,9 @@ export class ProjectTreeComponent implements OnInit {
     this.editorControl.openDirectory.subscribe(dirName => {
       //Note: This temporary hack is used to hide datasets using the original slower Editor structure.
       // Will be removed when Dataset functionality for Explorer gets better.
-        this.fileExplorer.showUss();
-        this.fileExplorer.updateDirectory(dirName);
-        this.showDatasets = false;
+      this.fileExplorer.showUss();
+      this.fileExplorer.updateDirectory(dirName);
+      this.showDatasets = false;
     });
 
     this.editorControl.openDataset.subscribe(dirName => {
@@ -140,16 +140,16 @@ export class ProjectTreeComponent implements OnInit {
         if (dirName[0] == '/') {
           //Note: This temporary hack is used to hide datasets using the original slower Editor structure.
           // Will be removed when Dataset functionality for Explorer gets better.
-            this.fileExplorer.showUss();
-            this.fileExplorer.updateDirectory(dirName);
-            this.showDatasets = false;
+          this.fileExplorer.showUss();
+          this.fileExplorer.updateDirectory(dirName);
+          this.showDatasets = false;
         } else { //Datasets
           //Note: This temporary hack is used to show datasets using the original slower Editor structure.
           // Will be removed when Dataset functionality for Explorer gets better.
-            this.fileExplorer.hideExplorers();
-            this.showDatasets = true;
+          this.fileExplorer.hideExplorers();
+          this.showDatasets = true;
 
-          let requestUrl = ZoweZLUX.uriBroker.datasetMetadataUri(dirName, 'true');
+          let requestUrl = ZoweZLUX.uriBroker.datasetMetadataUri(dirName.toUppercase(), 'true');
           this.httpService.get(requestUrl)
             .subscribe((response: any) => {
               this.nodes = this.dataAdapter.convertDatasetList(response);
@@ -166,7 +166,7 @@ export class ProjectTreeComponent implements OnInit {
       this.fileExplorer.deleteFile(pathAndName);
     });
   }
-  
+
   ngOnInit() {
   }
 
@@ -202,8 +202,8 @@ export class ProjectTreeComponent implements OnInit {
         isDataset: false,
         name: $event.name,
         path: $event.path.substring(0, $event.path.length - $event.name.length - 1)
-    };
-  
+      };
+
       this.editorControl.openFile('', nodeData).subscribe(x => {
         this.log.debug(`File loaded through File Explorer.`);
       });
@@ -318,8 +318,8 @@ export class ProjectTreeComponent implements OnInit {
   This program and the accompanying materials are
   made available under the terms of the Eclipse Public License v2.0 which accompanies
   this distribution, and is available at https://www.eclipse.org/legal/epl-v20.html
-  
+
   SPDX-License-Identifier: EPL-2.0
-  
+
   Copyright Contributors to the Zowe Project.
 */
